@@ -375,12 +375,13 @@ const form = document.getElementById("formulario");
 form.addEventListener("click", function (e) {
   e.preventDefault();
 
-  const inputs = form.querySelectorAll("input");
+  const inputs = form.querySelectorAll("input, select");
 
   let data = {};
 
-  inputs.forEach(function (input) {
+  inputs.forEach(function (input, select) {
     data[input.id] = input.value;
+    select[input.id] = select.valueOf;
   });
 
   localStorage.setItem("formData", JSON.stringify(data));
@@ -390,10 +391,11 @@ window.addEventListener("load", function () {
   const data = JSON.parse(localStorage.getItem("formData"));
 
   if (data !== null) {
-    const inputs = form.querySelectorAll("input");
+    const inputs = form.querySelectorAll("input, select");
 
-    inputs.forEach(function (input) {
+    inputs.forEach(function (input, select) {
       input.value = data[input.id];
+      select.valueOf = data[select.id];
     });
   }
 });
